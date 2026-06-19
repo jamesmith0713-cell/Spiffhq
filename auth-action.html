@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>SpiffHQ — Email Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --navy:#0A2463;--accent:#FF5C1A;--gold:#FFB627;
+      --text:#09090F;--muted:#505660;--border:#E4E4F0;
+      --bg:#F8F8FC;--card:#ffffff;--green:#16A34A;--red:#DC2626;
+    }
+    body{
+      font-family:'Inter',system-ui,sans-serif;
+      background:var(--bg);color:var(--text);
+      min-height:100vh;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;padding:24px;
+    }
+
+    /* ── Logo ─────────────────────────────────────────────── */
+    .logo{
+      font-family:'Plus Jakarta Sans','Inter',sans-serif;
+      font-weight:900;font-size:28px;letter-spacing:-.03em;
+      color:var(--navy);margin-bottom:32px;text-align:center;
+    }
+    .logo span{color:var(--accent)}
+
+    /* ── Card ─────────────────────────────────────────────── */
+    .card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:16px;padding:40px;max-width:440px;width:100%;
+      box-shadow:0 4px 24px rgba(10,36,99,.09);text-align:center;
+    }
+    .icon-wrap{
+      width:64px;height:64px;border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;margin:0 auto 20px;
+    }
+    .icon-wrap.loading{background:#EEF2FF}
+    .icon-wrap.success{background:#F0FDF4}
+    .icon-wrap.error{background:#FEF2F2}
+    .icon-wrap.reset{background:#FFF7ED}
+
+    h1{
+      font-family:'Plus Jakarta Sans','Inter',sans-serif;
+      font-weight:800;font-size:22px;letter-spacing:-.02em;
+      color:var(--navy);margin-bottom:10px;
+    }
+    p{font-size:14.5px;color:var(--muted);line-height:1.65;margin-bottom:20px}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      background:var(--accent);color:#fff;
+      padding:13px 28px;border-radius:9px;border:none;
+      font-family:'Plus Jakarta Sans','Inter',sans-serif;
+      font-weight:800;font-size:15px;letter-spacing:-.01em;
+      cursor:pointer;text-decoration:none;transition:opacity .15s;
+      width:100%;
+    }
+    .btn:hover{opacity:.9}
+    .btn.ghost{
+      background:none;color:var(--navy);
+      border:1.5px solid var(--border);margin-top:10px;
+      font-weight:600;
+    }
+    .btn.ghost:hover{background:var(--bg)}
+
+    /* Password reset form */
+    .field{text-align:left;margin-bottom:14px}
+    .field label{
+      display:block;font-size:12.5px;font-weight:700;
+      color:var(--muted);text-transform:uppercase;letter-spacing:.07em;
+      margin-bottom:6px;
+    }
+    .field input{
+      width:100%;padding:11px 14px;border:1.5px solid var(--border);
+      border-radius:9px;font-size:14.5px;font-family:inherit;
+      color:var(--text);outline:none;transition:border-color .15s;
+    }
+    .field input:focus{border-color:var(--accent)}
+    .strength-bar{
+      height:4px;border-radius:2px;background:var(--border);
+      margin-top:6px;overflow:hidden;
+    }
+    .strength-fill{height:100%;border-radius:2px;transition:all .3s;width:0}
+
+    /* Spinner */
+    .spinner{
+      width:20px;height:20px;border:2.5px solid rgba(10,36,99,.15);
+      border-top-color:var(--navy);border-radius:50%;
+      animation:spin .7s linear infinite;margin:0 auto 16px;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .footer-note{
+      font-size:12px;color:#9CA3AF;text-align:center;
+      margin-top:24px;line-height:1.6;
+    }
+    .footer-note a{color:var(--accent);text-decoration:none;font-weight:600}
+  </style>
+</head>
+<body>
+
+  <div class="logo">Spiff<span>HQ</span></div>
+
+  <div class="card" id="card">
+    <!-- Loading state (default) -->
+    <div id="state-loading">
+      <div class="spinner"></div>
+      <h1>One moment...</h1>
+      <p>We're confirming your request.</p>
+    </div>
+
+    <!-- Email verified ✅ -->
+    <div id="state-verified" style="display:none">
+      <div class="icon-wrap success">✅</div>
+      <h1>Email verified!</h1>
+      <p>Your SpiffHQ account is active. Head to your workspace to finish setup.</p>
+      <a href="#" id="go-workspace-btn" class="btn">Go to my workspace →</a>
+      <a href="./app.html" class="btn ghost">SpiffHQ home</a>
+    </div>
+
+    <!-- Password reset form 🔑 -->
+    <div id="state-reset-form" style="display:none">
+      <div class="icon-wrap reset">🔑</div>
+      <h1>Reset your password</h1>
+      <p>Choose a strong password for your SpiffHQ account.</p>
+      <div class="field">
+        <label>New password</label>
+        <input type="password" id="new-password" placeholder="At least 8 characters"
+          oninput="checkStrength(this.value)"/>
+        <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+      </div>
+      <div class="field">
+        <label>Confirm password</label>
+        <input type="password" id="confirm-password" placeholder="Repeat your password"/>
+      </div>
+      <div id="reset-error" style="font-size:13px;color:var(--red);margin-bottom:12px;display:none"></div>
+      <button class="btn" onclick="submitPasswordReset()">Set new password →</button>
+    </div>
+
+    <!-- Password reset success ✅ -->
+    <div id="state-reset-done" style="display:none">
+      <div class="icon-wrap success">✅</div>
+      <h1>Password updated!</h1>
+      <p>Your password has been changed. Sign in to your SpiffHQ account.</p>
+      <a href="./app.html" class="btn">Sign in →</a>
+    </div>
+
+    <!-- Error state ❌ -->
+    <div id="state-error" style="display:none">
+      <div class="icon-wrap error">❌</div>
+      <h1 id="error-title">Something went wrong</h1>
+      <p id="error-msg">This link may have expired or already been used. Request a new one from SpiffHQ.</p>
+      <a href="./app.html" class="btn">Back to SpiffHQ</a>
+    </div>
+  </div>
+
+  <p class="footer-note">
+    © 2026 SpiffHQ &nbsp;·&nbsp;
+    <a href="./app.html">Back to app</a>
+  </p>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, applyActionCode, verifyPasswordResetCode, confirmPasswordReset }
+      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey:      "AIzaSyBI5oIfNI2oEK3qVaXI-2zyTVzJBsW8hQg",
+      authDomain:  "spiffhq.firebaseapp.com",
+      projectId:   "spiffhq",
+    };
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ── Read URL params ────────────────────────────────────────
+    const params   = new URLSearchParams(window.location.search);
+    const mode     = params.get("mode");       // verifyEmail | resetPassword | recoverEmail
+    const oobCode  = params.get("oobCode");    // the one-time action code
+    const continueUrl = params.get("continueUrl"); // ?w=slug set by our signup code
+
+    function show(id) {
+      ["state-loading","state-verified","state-reset-form",
+       "state-reset-done","state-error"].forEach(s => {
+        document.getElementById(s).style.display = s === id ? "block" : "none";
+      });
+    }
+
+    function showError(title, msg) {
+      document.getElementById("error-title").textContent = title || "Something went wrong";
+      document.getElementById("error-msg").textContent   = msg   || "Please try again or contact support.";
+      show("state-error");
+    }
+
+    // ── Handle the action ──────────────────────────────────────
+    async function handleAction() {
+      if(!oobCode) {
+        showError("Invalid link", "This verification link is missing required parameters. Try signing up again.");
+        return;
+      }
+
+      if(mode === "verifyEmail") {
+        try {
+          await applyActionCode(auth, oobCode);
+          // Point the workspace button back to the right workspace if we have the slug
+          const wsBtn = document.getElementById("go-workspace-btn");
+          if(continueUrl) {
+            wsBtn.href = continueUrl;
+          } else {
+            wsBtn.href = "./app.html";
+          }
+          show("state-verified");
+        } catch(e) {
+          if(e.code === "auth/invalid-action-code") {
+            showError("Link expired or already used",
+              "Verification links expire after 24 hours and can only be used once. Sign in to SpiffHQ and request a new verification email.");
+          } else {
+            showError("Verification failed", e.message);
+          }
+        }
+      }
+
+      else if(mode === "resetPassword") {
+        try {
+          await verifyPasswordResetCode(auth, oobCode);
+          show("state-reset-form");
+        } catch(e) {
+          showError("Reset link expired",
+            "This password reset link has expired or already been used. Request a new one from SpiffHQ.");
+        }
+      }
+
+      else {
+        showError("Unknown action", "This link type isn\'t supported. Head back to SpiffHQ.");
+      }
+    }
+
+    // ── Password reset submission ──────────────────────────────
+    window.submitPasswordReset = async function() {
+      const pw  = document.getElementById("new-password").value;
+      const pw2 = document.getElementById("confirm-password").value;
+      const err = document.getElementById("reset-error");
+      err.style.display = "none";
+
+      if(pw.length < 8)      { err.textContent = "Password must be at least 8 characters."; err.style.display="block"; return; }
+      if(pw !== pw2)         { err.textContent = "Passwords don\'t match."; err.style.display="block"; return; }
+      if(!/[A-Z]/.test(pw)) { err.textContent = "Include at least one uppercase letter."; err.style.display="block"; return; }
+      if(!/[0-9]/.test(pw)) { err.textContent = "Include at least one number."; err.style.display="block"; return; }
+
+      try {
+        await confirmPasswordReset(auth, oobCode, pw);
+        show("state-reset-done");
+      } catch(e) {
+        err.textContent = "Couldn\'t update your password. The link may have expired — try requesting a new one.";
+        err.style.display = "block";
+      }
+    };
+
+    // ── Password strength indicator ────────────────────────────
+    window.checkStrength = function(pw) {
+      const fill = document.getElementById("strength-fill");
+      let score = 0;
+      if(pw.length >= 8)        score++;
+      if(/[A-Z]/.test(pw))      score++;
+      if(/[0-9]/.test(pw))      score++;
+      if(/[^A-Za-z0-9]/.test(pw)) score++;
+      const colors = ["#EF4444","#F59E0B","#3B82F6","#16A34A"];
+      fill.style.width   = (score * 25) + "%";
+      fill.style.background = colors[score-1] || "#E4E4F0";
+    };
+
+    // ── Init ────────────────────────────────────────────────────
+    handleAction();
+  </script>
+</body>
+</html>
