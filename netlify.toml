@@ -3,8 +3,8 @@
 # ══════════════════════════════════════════════════════════════
 
 [build]
-  # No build step — static HTML files deployed as-is from repo root
-  publish = "."
+  command   = ""
+  publish   = "."
   functions = "netlify/functions"
 
 # ── Security headers (VULN-09: Content Security Policy) ────────────
