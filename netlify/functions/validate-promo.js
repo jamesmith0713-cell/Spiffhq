@@ -19,9 +19,9 @@
 // the old ones were exposed in the client source.
 const PROMO_CODES = {
   // Format: "CODE": { label, bypass, expiresAt (optional ISO string) }
-  "SAPENTER100":  { label: "Sapenter Internal",  bypass: true  },
-  "FOUNDER2026":  { label: "Founder Access",      bypass: true  },
-  "SPIFFLAUNCH":  { label: "Launch Promo",         bypass: true  },
+  "UZE9DEPAT0":  { label: "Sapenter Internal",  bypass: true  },
+  "U1Y8WGBV16":  { label: "Founder Access",      bypass: true  },
+  "C5540P1T59":  { label: "Launch Promo",         bypass: true  },
   // Add new codes below — deploy to activate, remove to deactivate
 };
 
