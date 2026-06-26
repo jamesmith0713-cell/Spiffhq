@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SpiffHQ Blog — Incentive programs, sales contests, and bonus management for small teams</title>
+<meta name="description" content="Practical guides on running bonus programs, sales contests, and incentive plans for owner-operated sales teams. No fluff — just what works."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#080C14;--navy:#0A1628;--orange:#FF5C1A;--gold:#FFB627;
+  --cream:#F5F4F0;--white:#FFFFFF;--muted:#6B7280;--border:#E5E7EB;
+  --text:#1A1F2E;--display:'Plus Jakarta Sans',sans-serif;
+  --body:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--cream);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{
+  background:var(--black);padding:18px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.nav-logo{font-family:var(--display);font-weight:800;font-size:18px;
+  color:var(--white);text-decoration:none;letter-spacing:-.02em}
+.nav-logo span{color:var(--orange)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;color:rgba(255,255,255,.6);text-decoration:none;transition:color .15s;font-weight:500}
+.nav-links a:hover{color:var(--white)}
+.nav-links .nav-cta{
+  background:var(--orange);color:var(--white);
+  padding:9px 20px;border-radius:8px;font-weight:700;
+}
+.nav-links .nav-cta:hover{opacity:.88;color:var(--white)}
+@media(max-width:640px){
+  nav{padding:16px 20px}
+  .nav-links{gap:16px}
+  .nav-links a:not(.nav-cta){display:none}
+}
+
+/* BLOG HEADER */
+.blog-header{
+  background:var(--black);padding:64px 24px 56px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.blog-eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:14px;
+}
+.blog-header h1{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(28px,4vw,48px);letter-spacing:-.03em;
+  color:var(--white);line-height:1.15;margin-bottom:12px;
+}
+.blog-header p{
+  font-size:17px;color:rgba(255,255,255,.5);
+  max-width:500px;margin:0 auto;line-height:1.7;
+}
+
+/* POSTS GRID */
+.posts-section{max-width:900px;margin:0 auto;padding:56px 24px 80px}
+.posts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+@media(max-width:700px){.posts-grid{grid-template-columns:1fr}}
+@media(max-width:900px) and (min-width:701px){.posts-grid{grid-template-columns:1fr 1fr}}
+
+.post-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  text-decoration:none;color:var(--text);
+  transition:transform .15s,box-shadow .15s;
+  display:flex;flex-direction:column;
+}
+.post-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
+.post-card-img{
+  width:100%;height:160px;object-fit:cover;
+  background:linear-gradient(135deg,#0A1628,#FF5C1A22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;
+}
+.post-card-body{padding:22px;flex:1;display:flex;flex-direction:column}
+.post-tag{
+  display:inline-block;font-family:var(--mono);font-size:11px;
+  font-weight:500;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:10px;
+}
+.post-card h2{
+  font-family:var(--display);font-weight:700;font-size:18px;
+  letter-spacing:-.02em;line-height:1.3;margin-bottom:10px;
+  color:var(--text);
+}
+.post-card p{font-size:13.5px;color:var(--muted);line-height:1.65;flex:1;margin-bottom:16px}
+.post-meta{
+  font-size:12px;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+  border-top:1px solid var(--border);padding-top:14px;margin-top:auto;
+}
+.post-read-more{
+  font-size:13px;font-weight:700;color:var(--orange);
+  text-decoration:none;
+}
+
+/* CTA BAND */
+.blog-cta{
+  background:var(--black);padding:56px 24px;text-align:center;
+}
+.blog-cta h2{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(24px,3vw,36px);letter-spacing:-.03em;
+  color:var(--white);margin-bottom:10px;
+}
+.blog-cta p{font-size:16px;color:rgba(255,255,255,.5);margin-bottom:24px}
+.blog-cta a{
+  display:inline-block;background:var(--orange);color:var(--white);
+  font-weight:700;font-size:15px;padding:14px 32px;
+  border-radius:10px;text-decoration:none;transition:opacity .15s;
+}
+.blog-cta a:hover{opacity:.88}
+
+/* FOOTER */
+footer{
+  background:var(--black);border-top:1px solid rgba(255,255,255,.06);
+  padding:24px 40px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-logo{font-family:var(--display);font-weight:800;font-size:15px;
+  color:var(--white);text-decoration:none}
+.footer-logo span{color:var(--orange)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .15s}
+.footer-links a:hover{color:rgba(255,255,255,.7)}
+
+/* ── ARTICLE STYLES (used when a post is expanded) ── */
+.article-wrap{max-width:680px;margin:0 auto;padding:56px 24px 80px}
+.article-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:600;color:var(--muted);
+  text-decoration:none;margin-bottom:32px;transition:color .15s;
+}
+.article-back:hover{color:var(--orange)}
+.article-eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:12px;
+}
+.article-wrap h1{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;
+  line-height:1.15;margin-bottom:14px;
+}
+.article-meta{
+  font-size:13px;color:var(--muted);margin-bottom:40px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.article-meta span{display:flex;align-items:center;gap:4px}
+.article-body{font-size:16.5px;line-height:1.8;color:#2D3748}
+.article-body h2{
+  font-family:var(--display);font-weight:800;font-size:24px;
+  letter-spacing:-.02em;margin:40px 0 14px;color:var(--text);
+}
+.article-body h3{
+  font-family:var(--display);font-weight:700;font-size:19px;
+  letter-spacing:-.01em;margin:28px 0 10px;color:var(--text);
+}
+.article-body p{margin-bottom:20px}
+.article-body ul,
+.article-body ol{margin:0 0 20px 22px;display:flex;flex-direction:column;gap:8px}
+.article-body li{padding-left:4px}
+.article-body strong{font-weight:700;color:var(--text)}
+.article-body blockquote{
+  border-left:3px solid var(--orange);
+  padding:14px 20px;margin:28px 0;
+  background:rgba(255,92,26,.04);border-radius:0 8px 8px 0;
+  font-style:italic;color:#4B5563;
+}
+.article-cta-box{
+  background:var(--black);border-radius:16px;
+  padding:32px;margin:48px 0;text-align:center;
+}
+.article-cta-box h3{
+  font-family:var(--display);font-weight:800;font-size:22px;
+  color:var(--white);margin-bottom:8px;
+}
+.article-cta-box p{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:20px}
+.article-cta-box a{
+  display:inline-block;background:var(--orange);color:var(--white);
+  font-weight:700;font-size:15px;padding:12px 28px;
+  border-radius:9px;text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="./index.html" class="nav-logo">Spiff<span>HQ</span></a>
+  <div class="nav-links">
+    <a href="./index.html">Home</a>
+    <a href="./partners.html" style="color:var(--orange)">Launch Partners</a>
+    <a href="./app.html" class="nav-cta">Start free</a>
+  </div>
+</nav>
+
+<!-- BLOG INDEX — shown by default -->
+<div id="view-index">
+
+  <div class="blog-header">
+    <div class="blog-eyebrow">SpiffHQ Blog</div>
+    <h1>Run better bonus programs.<br>Build stronger sales teams.</h1>
+    <p>Practical guides for owner-operated sales teams running bonuses, contests, and incentive programs.</p>
+  </div>
+
+  <div class="posts-section">
+    <div class="posts-grid">
+
+      <a class="post-card" href="#" onclick="showPost('post1');return false">
+        <div class="post-card-img">📋</div>
+        <div class="post-card-body">
+          <div class="post-tag">Incentive Programs</div>
+          <h2>How to Run a Bonus Program for Your Insurance Agency — Without a Spreadsheet</h2>
+          <p>Most agency owners track PIF bonuses and auto contests on a shared spreadsheet. Here's what breaks — and what to do instead.</p>
+          <div class="post-meta">
+            <span>📅 June 2026</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#" onclick="showPost('post2');return false">
+        <div class="post-card-img">🏆</div>
+        <div class="post-card-body">
+          <div class="post-tag">Sales Contests</div>
+          <h2>The 5 Sales Contest Mistakes Small Business Owners Make — and How to Fix Them</h2>
+          <p>Running a contest is easy. Getting your team to actually compete — and trusting the results — is where most owners get stuck.</p>
+          <div class="post-meta">
+            <span>📅 June 2026</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="post-card" href="#" onclick="showPost('post3');return false">
+        <div class="post-card-img">💰</div>
+        <div class="post-card-body">
+          <div class="post-tag">Team Management</div>
+          <h2>Why Your Reps Have Different Numbers Than You — and What to Do About It</h2>
+          <p>The argument happens every pay period. Three reps, three different counts, nobody agreeing. It's not a math problem. It's a process problem.</p>
+          <div class="post-meta">
+            <span>📅 June 2026</span>
+            <span>·</span>
+            <span>5 min read</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="blog-cta">
+    <h2>Ready to stop managing your bonus program by hand?</h2>
+    <p>SpiffHQ runs your contests, verifies entries, and calculates payouts automatically.</p>
+    <a href="./app.html">Start free — no card needed</a>
+  </div>
+
+</div>
+
+<!-- POST 1 -->
+<div id="view-post1" style="display:none;background:var(--cream)">
+  <div class="article-wrap">
+    <a class="article-back" href="#" onclick="showIndex();return false">← Back to blog</a>
+    <div class="article-eyebrow">Incentive Programs</div>
+    <h1>How to Run a Bonus Program for Your Insurance Agency — Without a Spreadsheet</h1>
+    <div class="article-meta">
+      <span>📅 June 2026</span>
+      <span>·</span>
+      <span>6 min read</span>
+      <span>·</span>
+      <span>By Chad Sapenter, SpiffHQ</span>
+    </div>
+    <div class="article-body">
+
+      <p>If you run an insurance agency with a sales team, you're probably running some kind of bonus or incentive program. Maybe it's a PIF contest, a weekly auto bundle bonus, or a monthly top-producer award. Whatever you call it — it works. Incentives move the needle.</p>
+
+      <p>The problem isn't running the program. The problem is <strong>tracking it</strong>.</p>
+
+      <p>Walk into almost any independent or captive agency back office and you'll find the same thing: a Google Sheet, a whiteboard, or a group text chain where everyone's keeping their own count. And at the end of every pay period, someone's number is wrong.</p>
+
+      <h2>Why spreadsheets fail your bonus program</h2>
+
+      <p>Spreadsheets aren't broken — they're just not built for this. Here's where they fall apart in practice:</p>
+
+      <ul>
+        <li><strong>They live on one person's laptop.</strong> When your office manager is out or your admin changes, the whole system breaks. Who has the current version? Who updated it last?</li>
+        <li><strong>Reps update them inconsistently.</strong> Some reps log every sale the same day. Others wait until Friday and try to reconstruct the week from memory. Both methods produce different numbers.</li>
+        <li><strong>There's no verification step.</strong> If a rep enters 5 PIFs and the spreadsheet says 5, how do you know all 5 are real paid-in-full policies? Most owners don't check until there's a dispute — and by then, the bonus is already paid.</li>
+        <li><strong>Tiered math is done manually.</strong> If your PIF pays $15 base and doubles at 8 units, someone is recalculating that threshold by hand every period. That someone makes mistakes.</li>
+      </ul>
+
+      <blockquote>"I was spending two hours every pay period reconciling counts. Three different reps, three different numbers. Someone always had a dispute."</blockquote>
+
+      <p>Sound familiar? This is the most common thing agency owners tell us when we ask how they run their bonus programs.</p>
+
+      <h2>The five elements of a bonus program that actually works</h2>
+
+      <p>Whether you're running a PIF contest, a bundle incentive, or a monthly top-producer bonus, a well-run program has five things in common:</p>
+
+      <h3>1. Every rep logs their own sales in real time</h3>
+      <p>Not at the end of the week. Not when they remember. Each sale, when it happens. This prevents the "let me reconstruct my week" problem and creates a contemporaneous record that's much harder to dispute.</p>
+
+      <h3>2. Every entry is attached to a reference</h3>
+      <p>A policy number. A transaction ID. A date of sale. Something your verifier can look up. Without a reference, you're back to trusting the rep's word — which is fine most of the time, until it isn't.</p>
+
+      <h3>3. Someone verifies before anyone gets paid</h3>
+      <p>This is the most important step most agencies skip. A designated verifier — your office manager, your lead agent, anyone with system access — runs a quick check on each entry before it's approved. Is the policy in the system? Is it paid in full? Does the rep's name match? Two minutes per entry, done once, prevents a lot of problems.</p>
+
+      <h3>4. The math calculates automatically</h3>
+      <p>Tiered rates, bonus thresholds, doubling tiers — these should calculate themselves. If someone is hand-computing whether a rep hit their 8-unit PIF threshold this week, that's a source of error and a waste of time.</p>
+
+      <h3>5. Payouts come from a verified export, not a memory</h3>
+      <p>At the end of the period, your payout source of truth should be a report of approved entries — not what you remember, not what a rep says, not a spreadsheet someone updated last Tuesday. An export with names, units, and dollar amounts, built from verified data.</p>
+
+      <h2>What this looks like in practice</h2>
+
+      <p>Here's the flow for a typical agency running a weekly PIF bonus and a monthly bundle contest at the same time:</p>
+
+      <ol>
+        <li>Rep logs a PIF sale — picks their name, enters 1 unit, attaches the policy number. Takes 30 seconds.</li>
+        <li>At the end of each day or the next morning, the office manager pulls up the verification queue and checks each entry against the agency management system. Runs down their checklist: policy in system, payment confirmed, active status. Initials it. Entry is approved.</li>
+        <li>The leaderboard updates automatically. Everyone can see where they stand. The doubling threshold shows up when a rep hits 8 PIFs.</li>
+        <li>At the end of the week, the owner exports a CSV. One row per rep, approved entries only. Hands it to payroll or writes the checks.</li>
+      </ol>
+
+      <p>The whole thing takes the office manager about 10 minutes per day and the owner about 5 minutes at period end. No arguments. No reconciliation. No spreadsheet version control.</p>
+
+      <div class="article-cta-box">
+        <h3>Want to run your next bonus program this way?</h3>
+        <p>SpiffHQ takes 2 minutes to set up. Your reps need zero accounts — just a shared link.</p>
+        <a href="./app.html">Start free — no card needed</a>
+      </div>
+
+      <h2>Common questions from agency owners</h2>
+
+      <h3>What if I run daily, weekly, and monthly contests at the same time?</h3>
+      <p>This is very common in insurance agencies. A daily door-knock contest, a weekly PIF bonus, and a monthly bundle leaderboard can all run simultaneously if your tracking system handles multiple reset periods. The key is making sure each incentive type has its own period assigned, so a PIF submitted on Monday counts for the weekly PIF contest but not for the daily contest that already reset.</p>
+
+      <h3>My verifier is also a producer. Is that a problem?</h3>
+      <p>It can be, especially if they're verifying their own entries. Best practice is to have the verifier skip their own submissions and flag them for you to approve separately. The verification step is about having a second set of eyes — it works less well when that set of eyes belongs to the person being verified.</p>
+
+      <h3>How do I handle disputed entries?</h3>
+      <p>Build a simple process: rep submits → verifier reviews → if denied, rep can flag it for owner review. The verifier's job is to check against the system, not to make judgment calls. When something looks off, it escalates to you. That process needs to be clear and consistent so reps trust that it's fair.</p>
+
+      <p>Running a bonus program well isn't complicated. It just requires a consistent process, a verification step, and a system that does the math for you. The agencies that have the fewest disputes and the most motivated teams are almost always the ones that run the tightest programs — not the most generous ones.</p>
+
+    </div>
+  </div>
+</div>
+
+<!-- POST 2 -->
+<div id="view-post2" style="display:none;background:var(--cream)">
+  <div class="article-wrap">
+    <a class="article-back" href="#" onclick="showIndex();return false">← Back to blog</a>
+    <div class="article-eyebrow">Sales Contests</div>
+    <h1>The 5 Sales Contest Mistakes Small Business Owners Make — and How to Fix Them</h1>
+    <div class="article-meta">
+      <span>📅 June 2026</span>
+      <span>·</span>
+      <span>7 min read</span>
+      <span>·</span>
+      <span>By Chad Sapenter, SpiffHQ</span>
+    </div>
+    <div class="article-body">
+
+      <p>Sales contests work. Decades of research on motivation, competition, and incentive design all point to the same conclusion: when people can see where they stand relative to their peers in real time, they work harder. The leaderboard effect is real.</p>
+
+      <p>But most small business owners don't run great contests. They run contests that sound great at the Monday morning meeting and fall apart by Wednesday.</p>
+
+      <p>Here are the five most common mistakes — and how to fix each one.</p>
+
+      <h2>Mistake 1: The rules aren't clear before the contest starts</h2>
+
+      <p>The most common contest problem isn't tracking or payouts — it's ambiguity. "Whoever sells the most this month wins $500" sounds simple until someone asks: Does a cancelled policy still count? What if I submit it this week but the customer pays next week? What if two reps tie?</p>
+
+      <p>Every unanswered question is a potential dispute. And disputes at payout time feel deeply unfair to the rep who thought they'd won.</p>
+
+      <p><strong>The fix:</strong> Before the contest starts, write down the exact rules. What counts as a qualifying sale? What's the verification process? How does the math work? What happens if someone ties? Share this with your team before day one. Treat it like a contract — because effectively, it is.</p>
+
+      <h2>Mistake 2: Nobody knows where they stand until it's over</h2>
+
+      <p>If your reps can only find out their standing by asking you or checking the whiteboard, most of them won't bother. The leaderboard effect only works if the leaderboard is visible, accurate, and real-time.</p>
+
+      <p>A contest where reps find out the winner on Friday is much less motivating than one where they can see at 2pm on Wednesday that they're in second place by 2 units. The second scenario creates urgency. The first one just creates a reveal.</p>
+
+      <blockquote>"When reps can see they're one sale behind first place, they make one more call. That's the whole game."</blockquote>
+
+      <p><strong>The fix:</strong> Make standings visible in real time. Whatever system you use — a shared screen in the back office, a link everyone has on their phone, a TV on the wall — the leaderboard needs to update when a sale is logged, not at the end of the day.</p>
+
+      <h2>Mistake 3: Only the top rep wins</h2>
+
+      <p>Winner-take-all contests are demotivating for everyone except the person most likely to win anyway. If your top rep leads the contest by 15 units on day three, the other seven reps on your team have mentally checked out. You've motivated one person and disengaged seven.</p>
+
+      <p><strong>The fix:</strong> Structure your contests so multiple people can win. A tiered bonus (top 3 reps all earn something, at different amounts) keeps more people engaged through the full period. Or run a threshold bonus instead of a ranking — everyone who hits 10 PIFs gets $50, regardless of where they rank. Now the competition is against a goal, not against each other, and your whole team has a reason to keep pushing.</p>
+
+      <h2>Mistake 4: There's no verification before payout</h2>
+
+      <p>This is the one that costs owners real money. A contest with no verification process is a contest where the rep who's willing to inflate their numbers wins. Most of your reps won't do this — but one will, eventually, and when they do, you'll have to decide whether to confront it or just pay out a number you don't trust.</p>
+
+      <p>Worse, the honest reps who didn't inflate their numbers will find out. That destroys morale faster than anything else.</p>
+
+      <p><strong>The fix:</strong> Build a verification step into every contest before anyone gets paid. This doesn't have to be a full audit — a quick check that each submitted entry has a valid reference number in your system takes two minutes per entry. That two minutes protects your payout and tells your honest reps that the contest is fair.</p>
+
+      <h2>Mistake 5: Payouts are late or wrong</h2>
+
+      <p>Nothing kills a bonus program faster than paying out two weeks late, or paying the wrong amount. Reps remember. They also talk to each other.</p>
+
+      <p>Late payouts happen for two reasons: the reconciliation takes longer than expected, or the owner gets busy and it falls through the cracks. Wrong payouts happen because someone did the math by hand and made a mistake, or because the spreadsheet had an error that nobody caught.</p>
+
+      <p><strong>The fix:</strong> Automate the math and create a clear payout cadence before the contest starts. "We run weekly contests. The period ends Sunday. I export and pay on Monday or Tuesday." Everyone knows what to expect. The math is calculated automatically so there's nothing to reconcile. The export is the payout document.</p>
+
+      <h2>The underlying principle</h2>
+
+      <p>Every one of these mistakes comes back to the same root cause: running an incentive program without a system. A whiteboard and a spreadsheet can get you started, but they can't give reps real-time standings, they can't enforce a verification step, and they can't calculate tiered bonuses without human error.</p>
+
+      <p>The best contests your team will ever compete in are the ones where the rules are clear, the standings are visible, the verification is consistent, and the payout is fast and accurate. Those four things build trust. And trust is what makes reps actually try.</p>
+
+      <div class="article-cta-box">
+        <h3>Run your next contest the right way.</h3>
+        <p>SpiffHQ handles the tracking, verification, and math automatically. Your team just competes.</p>
+        <a href="./app.html">Start free — no card needed</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- POST 3 -->
+<div id="view-post3" style="display:none;background:var(--cream)">
+  <div class="article-wrap">
+    <a class="article-back" href="#" onclick="showIndex();return false">← Back to blog</a>
+    <div class="article-eyebrow">Team Management</div>
+    <h1>Why Your Reps Have Different Numbers Than You — and What to Do About It</h1>
+    <div class="article-meta">
+      <span>📅 June 2026</span>
+      <span>·</span>
+      <span>5 min read</span>
+      <span>·</span>
+      <span>By Chad Sapenter, SpiffHQ</span>
+    </div>
+    <div class="article-body">
+
+      <p>It happens in almost every sales team, on almost every pay period. You sit down to run the numbers, and a rep comes to you with a different count than what you have. Sometimes it's off by one. Sometimes it's off by five. Either way, someone is wrong — and someone is going to feel like they're not being treated fairly.</p>
+
+      <p>This isn't a character problem. Your reps aren't lying (most of the time). It's a <strong>process problem</strong>. Specifically, it's what happens when there's no single source of truth for what counts as a valid sale.</p>
+
+      <h2>Where the discrepancy comes from</h2>
+
+      <p>When we talk to owners about this, the disagreements almost always trace back to one of three things:</p>
+
+      <h3>Different definitions of "a sale"</h3>
+      <p>A rep submits a PIF on Monday. The policy gets cancelled on Wednesday before it's paid in full. The rep counts it. You don't. Neither of you is wrong — you just have different definitions of what qualifies. The rep went by when they submitted it. You went by whether it was actually paid.</p>
+
+      <p>This is a rules problem, not a math problem. The solution is a written definition that everyone agrees to before the period starts.</p>
+
+      <h3>Different timing for when things are logged</h3>
+      <p>Some reps log sales the day they happen. Others log everything at the end of the week. If your pay period closes on Sunday night and a rep logs their Thursday sales on Saturday, they might still be within the period — but your count was already done on Friday.</p>
+
+      <p>The fix is a clear cutoff time, communicated upfront: "Entries must be submitted by 5pm Sunday to count for this week's contest."</p>
+
+      <h3>No verification before payout</h3>
+      <p>This is the big one. If there's no step between "rep submits" and "owner pays," you have no independent check on whether the numbers are right. Both the rep and the owner are working from their own records, and those records don't have to match.</p>
+
+      <blockquote>"The argument isn't really about the numbers. It's about who gets to decide which numbers are right."</blockquote>
+
+      <p>A verification step — someone checks each entry against a real record before it's approved — removes the subjectivity. It's not the owner's count vs. the rep's count. It's what the system says.</p>
+
+      <h2>Why this matters beyond the money</h2>
+
+      <p>A disputed payout isn't just a financial problem. It's a trust problem. When a rep believes they earned something and doesn't get it, they don't just lose that payout — they lose faith in the program. And a bonus program that your team doesn't trust stops motivating anyone.</p>
+
+      <p>The flip side is also true. When you're confident that every approved entry has been verified against a real record, you can pay out without hesitation. No second-guessing. No "I'll have to look into that." You know the number is right because someone checked it.</p>
+
+      <h2>How to fix it permanently</h2>
+
+      <p>The solution has three parts, and all three have to be in place for it to work:</p>
+
+      <h3>1. Define what counts before the period starts</h3>
+      <p>What is a qualifying sale? When does it have to be submitted? What reference number does it need? Write this down. Share it with your team. Make sure everyone agrees before the contest begins.</p>
+
+      <h3>2. Create a single submission method</h3>
+      <p>Everyone submits through the same channel, at the same time, in the same format. Not some people in a spreadsheet, some in a group text, and some just telling you verbally. One method, every time.</p>
+
+      <h3>3. Verify before you pay</h3>
+      <p>Have someone — your office manager, your lead rep, anyone with system access — check each submitted entry against your CRM, AMS, or management system before it's approved. This doesn't take long. Two minutes per entry. The verification creates the single source of truth that both you and your rep can refer to if there's ever a question.</p>
+
+      <p>When all three are in place, the conversation changes. It's no longer "your number vs. my number." It's "here's the approved entry log — let's look at it together." That's a conversation that ends in two minutes instead of twenty.</p>
+
+      <h2>A word on the reps who do push back</h2>
+
+      <p>Even with a perfect process, you'll occasionally have a rep who believes a denied entry should have been approved. That's fine — build an appeal step into your process. Rep flags the entry, you review it with the verifier, you make a call. The decision is documented either way.</p>
+
+      <p>What you want to avoid is a world where the appeal is just a negotiation about whose memory is better. A verified entry log makes the appeal process factual rather than political. That's better for you, and — honestly — it's better for your reps too.</p>
+
+      <div class="article-cta-box">
+        <h3>Eliminate the number dispute permanently.</h3>
+        <p>SpiffHQ gives every rep a verified entry log and gives you a single source of truth at payout time.</p>
+        <a href="./app.html">Start free — no card needed</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="./index.html" class="footer-logo">Spiff<span>HQ</span></a>
+  <div class="footer-links">
+    <a href="./index.html">Home</a>
+    <a href="./blog.html">Blog</a>
+    <a href="./partners.html">Launch Partners</a>
+    <a href="./app.html">Sign in</a>
+  </div>
+</footer>
+
+<script>
+function showPost(id) {
+  document.getElementById('view-index').style.display = 'none';
+  ['post1','post2','post3'].forEach(p => {
+    document.getElementById('view-'+p).style.display = (p===id) ? 'block' : 'none';
+  });
+  window.scrollTo(0,0);
+}
+function showIndex() {
+  document.getElementById('view-index').style.display = 'block';
+  ['post1','post2','post3'].forEach(p => {
+    document.getElementById('view-'+p).style.display = 'none';
+  });
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
