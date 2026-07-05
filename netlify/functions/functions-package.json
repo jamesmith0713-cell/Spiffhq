@@ -1,0 +1,12 @@
+{
+  "name": "spiffhq-functions",
+  "version": "1.0.0",
+  "description": "SpiffHQ Netlify serverless functions",
+  "engines": {
+    "node": "18"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "stripe": "^14.0.0"
+  }
+}
