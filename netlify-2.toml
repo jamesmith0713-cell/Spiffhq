@@ -1,0 +1,45 @@
+# ══════════════════════════════════════════════════════════════
+# SpiffHQ — Netlify configuration
+# ══════════════════════════════════════════════════════════════
+
+[build]
+  command   = ""
+  publish   = "."
+  functions = "netlify/functions"
+
+# ── Secrets scanner omit ───────────────────────────────────────────
+# Firebase client API keys (AIzaSy...) are intentionally public by design.
+# Security for Firebase lives in database rules and domain restrictions,
+# not the API key itself. This tells Netlify's scanner to skip it.
+[build.environment]
+  SECRETS_SCAN_OMIT_VALUES = "AIzaSyBI5oIfNI2oEK3qVaXI-2zyTVzJBsW8hQg"
+
+# ── Install function dependencies automatically ────────────────────
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
+
+# ── Security headers (VULN-09: Content Security Policy) ────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://api.anthropic.com wss://*.firebaseio.com; img-src 'self' data: https: blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# ── CORS for Netlify Functions ─────────────────────────────────────
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://spiffhq.com"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+# ── Redirect www to apex ───────────────────────────────────────────
+[[redirects]]
+  from   = "https://www.spiffhq.com/*"
+  to     = "https://spiffhq.com/:splat"
+  status = 301
+  force  = true
